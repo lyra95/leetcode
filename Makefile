@@ -3,4 +3,4 @@ check: rust-check
 
 .PHONY : rust-check
 rust-check:
-	$(MAKE) -C rust/ clippy
+	"$(MAKE)" -C rust/ clippy
