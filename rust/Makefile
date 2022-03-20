@@ -5,3 +5,7 @@ clippy: check
 .PHONY: check
 check: Cargo.toml
 	cargo check
+
+.PHONY: fmt
+fmt: Cargo.toml
+	cargo fmt --all -- --check
