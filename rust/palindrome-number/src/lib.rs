@@ -2,11 +2,11 @@ pub struct Solution {}
 impl Solution {
     pub fn is_palindrome(x: i32) -> bool {
         if x < 0 {
-            return false
+            return false;
         }
-        
+
         let v = Solution::to_reversed_vector(x);
-        
+
         Solution::is_palindrome_as_vec(&v)
     }
 
@@ -21,13 +21,13 @@ impl Solution {
             let r = x - d * 10;
             v.push(r);
             x = d;
-        };
+        }
 
         v.push(x);
         v
     }
-    
-    pub fn is_palindrome_as_vec(v : &[i32]) -> bool {
+
+    pub fn is_palindrome_as_vec(v: &[i32]) -> bool {
         let n = v.len();
         for i in 0..n {
             let j = n - 1 - i;
@@ -36,7 +36,7 @@ impl Solution {
             }
 
             if v[i] != v[j] {
-                return false
+                return false;
             }
         }
         true
