@@ -1,4 +1,5 @@
 [workspace]
 members = [
-    "palindrome-number"
+    "palindrome-number",
+    "p1909"
 ]
