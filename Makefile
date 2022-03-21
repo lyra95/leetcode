@@ -7,6 +7,9 @@ check: rust-check
 .PHONY: lint
 lint: rust-lint
 
+.PHONY: test
+test: rust-test
+
 .PHONY: clean
 clean: rust-clean
 
@@ -25,3 +28,7 @@ rust-build:
 .PHONY: rust-clean
 rust-clean:
 	$(MAKE) -C rust/ clean
+
+.PHONY: rust-test
+rust-test:
+	$(MAKE) -C rust/ test
