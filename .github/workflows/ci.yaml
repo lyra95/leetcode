@@ -30,7 +30,7 @@ jobs:
         with:
           path: "python3"
       - run: pip install pylint
-      - run: pylint python3/*.py
+      - run: pylint python3/*.py --rcfile=python3/.pylintrc
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal

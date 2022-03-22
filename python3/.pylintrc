@@ -1,0 +1,13 @@
+[MASTER]
+py-version=3.10
+
+disable=
+	# no docs
+	C0114,
+	C0115,
+	C0116,
+
+	# added because of leet code template
+	C0103,
+	R0201,
+	R0903
