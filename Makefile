@@ -5,10 +5,10 @@ all: rust-build
 check: rust-check
 
 .PHONY: lint
-lint: rust-lint
+lint: rust-lint python-lint
 
 .PHONY: test
-test: rust-test
+test: rust-test python-test
 
 .PHONY: clean
 clean: rust-clean
@@ -32,3 +32,11 @@ rust-clean:
 .PHONY: rust-test
 rust-test:
 	$(MAKE) -C rust/ test
+
+.PHONY: python-lint
+python-lint:
+	$(MAKE) -C python3/ lint
+
+.PHONY: python-test
+python-test:
+	$(MAKE) -C python3/ test

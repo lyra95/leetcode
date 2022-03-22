@@ -30,7 +30,6 @@ jobs:
         with:
           path: "python3"
       - run: pip install pylint
-      - run: pylint python3/*.py --rcfile=python3/.pylintrc
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -48,9 +47,8 @@ jobs:
           profile: minimal
           toolchain: stable
           override: true
-      - run: make test
       - uses: actions/setup-python@v2
         with:
           python-version: "3.10"
       - run: pip install pytest
-      - run: pytest python3/*.py
+      - run: make test
