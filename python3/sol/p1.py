@@ -29,7 +29,3 @@ class Test(unittest.TestCase):
 
         sol = Solution()
         self.assertRaises(ValueError, lambda: sol.twoSum(nums, target))
-
-
-if __name__ == '__main__':
-    unittest.main()
