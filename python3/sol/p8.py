@@ -1,9 +1,11 @@
 import unittest
 from enum import Enum
 
+
 class Sign(Enum):
     PLUS = 1
     MINUS = 2
+
 
 class Solution:
     def myAtoi(self, s: str) -> int:
@@ -84,8 +86,12 @@ class Test(unittest.TestCase):
         self.assertEqual(Solution.trim_leading_whitespace("    -"), 4)
 
     def test_get_sign_and_move_cur(self):
-        self.assertEqual(Solution.get_sign_and_move_cur(4, "    -1"), (Sign.MINUS, 5))
-        self.assertEqual(Solution.get_sign_and_move_cur(4, "    1"), (Sign.PLUS, 4))
+        self.assertEqual(
+                Solution.get_sign_and_move_cur(4, "    -1"),
+                (Sign.MINUS, 5))
+        self.assertEqual(
+                Solution.get_sign_and_move_cur(4, "    1"),
+                (Sign.PLUS, 4))
 
     def test_all(self):
         s = Solution()
