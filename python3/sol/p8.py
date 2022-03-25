@@ -1,62 +1,67 @@
 import unittest
-from enum import Enum
 
 
-class Sign(Enum):
-    PLUS = 1
-    MINUS = 2
+class StringWithCursor:
+    s: str
+    cur: int
+    is_plus: bool
+    MAX = 2**31
 
+    def __init__(self, s: str):
+        self.s = s
+        self.cur = 0
+        self.is_plus = True
 
-class Solution:
-    def myAtoi(self, s: str) -> int:
-        n = len(s)
-        overflow = 2**31
-        cur = Solution.trim_leading_whitespace(s)
-        if cur >= n:
+    def atoi(self):
+        n = len(self.s)
+        self.__trim_leading_whitespaces()
+        if self.cur >= n:
             return 0
-        sign, cur = Solution.get_sign_and_move_cur(cur, s)
-        if cur >= n:
+        self.__get_sign_and_move_cur()
+        if self.cur >= n:
             return 0
-        cur = Solution.trim_leading_zeros(cur, s)
-        if cur >= n:
+        self.__trim_leading_zeros()
+        if self.cur >= n:
             return 0
-        digits = Solution.read_until_not_numeric(cur, s)
+        digits = self.__read_until_not_numeric()
+        result = self.__sum_up(digits)
 
-        result = Solution.add_up(digits)
-        if sign == Sign.MINUS:
-            if result > overflow:
-                return -overflow
-            result = -result
-        if result >= overflow:
-            return overflow - 1
-        return result
+        if self.is_plus and result > self.MAX - 1:
+            return self.MAX - 1
 
-    @staticmethod
-    def trim_leading_whitespace(s: str) -> int:
-        cur = 0
-        for c in s:
-            if c != ' ':
-                break
-            if c in "+-":
-                break
-            cur += 1
+        if not self.is_plus and result > self.MAX:
+            return -self.MAX
 
-        return cur
+        return - (-1) ** self.is_plus * result
 
-    @staticmethod
-    def get_sign_and_move_cur(cur: int, s: str):
-        c = s[cur]
-        if c == '+':
-            return (Sign.PLUS, cur + 1)
-        if c == '-':
-            return (Sign.MINUS, cur + 1)
-        return (Sign.PLUS, cur)
+    def __trim_leading_whitespaces(self):
+        for c in self.s:
+            if c == ' ':
+                self.cur += 1
+            else:
+                return
 
-    @staticmethod
-    def read_until_not_numeric(cur: int, s: str) -> list[int]:
+    def __get_sign_and_move_cur(self):
+        first = self.s[self.cur]
+        if first == '-':
+            self.is_plus = False
+            self.cur += 1
+            return
+        if first == '+':
+            self.cur += 1
+            return
+
+    def __trim_leading_zeros(self):
+        for i in range(self.cur, len(self.s)):
+            if self.s[i] != '0':
+                self.cur = i
+                return
+        self.cur = len(self.s)
+
+    def __read_until_not_numeric(self) -> list[int]:
         result = []
-        for i in range(cur, len(s)):
-            c = s[i]
+        for i in range(self.cur, len(self.s)):
+            c = self.s[i]
             if c.isnumeric():
                 result.append(int(c))
             else:
@@ -66,14 +71,7 @@ class Solution:
         return result
 
     @staticmethod
-    def trim_leading_zeros(cur: int, s: str) -> int:
-        for i in range(cur, len(s)):
-            if s[i] != '0':
-                return i
-        return len(s)
-
-    @staticmethod
-    def add_up(digits: list[int]) -> int:
+    def __sum_up(digits: list[int]):
         n = len(digits)
         acc = 0
         for i in range(n):
@@ -81,19 +79,14 @@ class Solution:
         return acc
 
 
+class Solution:
+    def myAtoi(self, s: str) -> int:
+        x = StringWithCursor(s)
+        return x.atoi()
+
+
 class Test(unittest.TestCase):
-    def test_trim(self):
-        self.assertEqual(Solution.trim_leading_whitespace("    -"), 4)
-
-    def test_get_sign_and_move_cur(self):
-        self.assertEqual(
-                Solution.get_sign_and_move_cur(4, "    -1"),
-                (Sign.MINUS, 5))
-        self.assertEqual(
-                Solution.get_sign_and_move_cur(4, "    1"),
-                (Sign.PLUS, 4))
-
     def test_all(self):
         s = Solution()
-        self.assertEqual(s.myAtoi("    -1234"), -1234)
-        self.assertEqual(s.myAtoi("    -0000asdf"), 0)
+        self.assertEqual(-1234, s.myAtoi("    -1234"))
+        self.assertEqual(0, s.myAtoi("    -0000asdf"))
