@@ -8,7 +8,7 @@ check: rust-check
 lint: rust-lint python-lint
 
 .PHONY: test
-test: rust-test python-test
+test: rust-test python-test go-test
 
 .PHONY: clean
 clean: rust-clean
@@ -40,3 +40,7 @@ python-lint:
 .PHONY: python-test
 python-test:
 	$(MAKE) -C python3/ test
+
+.PHONY: go-test
+go-test:
+	cd go && go test ./...

@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
       - uses: actions/setup-python@v2
         with:
           python-version: "3.10"
@@ -34,11 +35,16 @@ jobs:
           override: true
       - run: rustup component add rustfmt
       - run: make lint
+      - uses: golangci/golangci-lint-action@v2
+        with:
+          version: "latest"
+          working-directory: go
   
   test:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
